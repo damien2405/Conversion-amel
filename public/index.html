@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Conversion Amélie</title>
+<meta name="description" content="Toutes les tailles converties en unité Amélie. 1 Amélie = 165 cm.">
+<meta name="theme-color" content="#fbf3ea">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%23e4572e'/%3E%3Ctext x='50' y='68' font-size='58' text-anchor='middle' fill='white' font-family='Georgia,serif' font-weight='700'%3EA%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fbf3ea;
+    --bg2: #f6e3d3;
+    --card: #fffaf4;
+    --ink: #2b1b17;
+    --muted: #8a6f64;
+    --line: #ecd8c7;
+    --accent: #e4572e;
+    --accent2: #f2a65a;
+    --shadow: 0 10px 30px -12px rgba(120, 60, 30, .28);
+    --display: "Fraunces", Georgia, "Times New Roman", serif;
+    --body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1412;
+      --bg2: #2a1b16;
+      --card: #261a16;
+      --ink: #f7e9dd;
+      --muted: #b79b8d;
+      --line: #3d2a23;
+      --shadow: 0 10px 30px -12px rgba(0, 0, 0, .6);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: var(--body);
+    color: var(--ink);
+    background:
+      radial-gradient(900px 500px at 85% -10%, color-mix(in srgb, var(--accent2) 35%, transparent), transparent 60%),
+      radial-gradient(700px 420px at -10% 10%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 60%),
+      var(--bg);
+    padding: 0 max(18px, env(safe-area-inset-right)) 60px max(18px, env(safe-area-inset-left));
+  }
+  main { max-width: 760px; margin: 0 auto; }
+
+  header { text-align: center; padding: 56px 0 28px; }
+  .eyebrow {
+    display: inline-block;
+    font-size: .78rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
+    padding: 6px 14px; border-radius: 99px;
+  }
+  h1 {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(2.5rem, 9vw, 4.4rem);
+    line-height: 1;
+    letter-spacing: -.02em;
+    margin: 18px 0 12px;
+  }
+  h1 em { font-style: italic; color: var(--accent); font-weight: 600; }
+  .sub { color: var(--muted); font-size: 1.05rem; margin: 0; }
+  .sub strong { color: var(--ink); }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 28px;
+    box-shadow: var(--shadow);
+    padding: 26px;
+  }
+
+  .modes {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
+    background: var(--bg2); padding: 5px; border-radius: 16px; margin-bottom: 20px;
+  }
+  .modes button {
+    font: inherit; font-weight: 700; font-size: .92rem;
+    border: 0; background: transparent; color: var(--muted);
+    padding: 11px 8px; border-radius: 12px; cursor: pointer;
+    transition: background .2s, color .2s, box-shadow .2s;
+  }
+  .modes button[aria-pressed="true"] {
+    background: var(--card); color: var(--ink);
+    box-shadow: 0 2px 8px -2px rgba(120, 60, 30, .25);
+  }
+
+  .field { display: flex; gap: 10px; }
+  .field input {
+    flex: 1; min-width: 0;
+    font: inherit; font-family: var(--display); font-weight: 600;
+    font-size: 2rem;
+    color: var(--ink); background: var(--bg);
+    border: 2px solid var(--line); border-radius: 18px;
+    padding: 12px 18px;
+    outline: none; transition: border-color .2s, box-shadow .2s;
+  }
+  .field input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 5px color-mix(in srgb, var(--accent) 18%, transparent);
+  }
+  .field select {
+    font: inherit; font-weight: 700; font-size: 1.05rem;
+    color: var(--ink); background: var(--bg);
+    border: 2px solid var(--line); border-radius: 18px;
+    padding: 0 14px; cursor: pointer; outline: none;
+  }
+  .field select:focus { border-color: var(--accent); }
+  .label { font-size: .8rem; font-weight: 700; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; margin: 0 0 8px 4px; }
+
+  .result { text-align: center; padding: 30px 0 6px; }
+  .big {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(3rem, 13vw, 5.6rem);
+    line-height: 1;
+    letter-spacing: -.03em;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent;
+    word-break: break-word;
+  }
+  .unit { font-family: var(--display); font-style: italic; font-weight: 600; font-size: clamp(1.3rem, 5vw, 1.9rem); margin-top: 6px; }
+  .detail { color: var(--muted); margin: 10px 0 0; min-height: 1.5em; }
+
+  .stage {
+    display: flex; align-items: flex-end; justify-content: center; gap: 44px;
+    height: 240px; margin-top: 26px;
+    padding: 0 10px; border-bottom: 2px dashed var(--line);
+  }
+  .col { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; width: 96px; }
+  .bar {
+    width: 100%; border-radius: 18px 18px 0 0; min-height: 6px;
+    height: 0; transition: height .7s cubic-bezier(.2, .9, .25, 1.05);
+    position: relative; display: flex; align-items: flex-start; justify-content: center;
+  }
+  .bar.ref { background: linear-gradient(180deg, var(--accent), color-mix(in srgb, var(--accent) 65%, #7a1f0a)); }
+  .bar.you { background: linear-gradient(180deg, var(--accent2), color-mix(in srgb, var(--accent2) 70%, #8a4a10)); }
+  .bar span { font-size: 1.4rem; margin-top: 8px; }
+  .cap { margin: 10px 0 0; font-size: .85rem; font-weight: 700; text-align: center; line-height: 1.25; }
+  .cap small { display: block; color: var(--muted); font-weight: 500; }
+  .stage-wrap { display: flex; }
+  .stage-wrap .col .cap { position: absolute; }
+  .labels { display: flex; justify-content: center; gap: 44px; padding: 10px 10px 0; }
+  .labels div { width: 96px; text-align: center; font-size: .85rem; font-weight: 700; }
+  .labels small { display: block; color: var(--muted); font-weight: 500; }
+
+  .section-title {
+    font-family: var(--display); font-weight: 600;
+    font-size: clamp(1.6rem, 6vw, 2.1rem);
+    margin: 56px 0 6px; text-align: center; letter-spacing: -.01em;
+  }
+  .section-sub { text-align: center; color: var(--muted); margin: 0 0 24px; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 14px; }
+  .item {
+    font: inherit; text-align: left; color: inherit;
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: 22px; padding: 18px; cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: transform .2s, border-color .2s;
+  }
+  .item:hover, .item:focus-visible { transform: translateY(-3px); border-color: var(--accent); outline: none; }
+  .item .emoji { font-size: 2.2rem; line-height: 1; }
+  .item h3 { font-family: var(--display); font-size: 1.15rem; font-weight: 600; margin: 10px 0 2px; }
+  .item .size { color: var(--muted); font-size: .85rem; }
+  .item .am {
+    font-family: var(--display); font-weight: 800; font-size: 1.7rem; color: var(--accent);
+    margin-top: 8px; letter-spacing: -.02em;
+  }
+  .item .am small { font-family: var(--body); font-weight: 700; font-size: .78rem; color: var(--muted); letter-spacing: 0; }
+  .meter { height: 6px; background: var(--bg2); border-radius: 99px; margin-top: 12px; overflow: hidden; }
+  .meter i { display: block; height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 99px; }
+
+  footer { text-align: center; color: var(--muted); font-size: .9rem; margin-top: 50px; }
+  footer b { color: var(--accent); }
+
+  @media (max-width: 480px) {
+    .card { padding: 18px; border-radius: 24px; }
+    .field input { font-size: 1.6rem; }
+    .stage, .labels { gap: 28px; }
+    .stage { height: 210px; }
+    .grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .item { padding: 14px; border-radius: 18px; }
+    .item .am { font-size: 1.45rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <span class="eyebrow">Système international Amélie</span>
+    <h1>Tout se mesure en <em>Amélie</em></h1>
+    <p class="sub">1 Amélie = <strong>165 cm</strong>. Le reste n'est que de la conversion.</p>
+  </header>
+
+  <section class="card" aria-label="Convertisseur">
+    <div class="modes" role="group" aria-label="Sens de la conversion">
+      <button type="button" id="m1" aria-pressed="true">Taille → Amélie</button>
+      <button type="button" id="m2" aria-pressed="false">Amélie → Taille</button>
+    </div>
+
+    <p class="label" id="lab">Entre une taille</p>
+    <div class="field">
+      <input id="val" type="text" inputmode="decimal" autocomplete="off" value="180" aria-labelledby="lab">
+      <select id="unit" aria-label="Unité"></select>
+    </div>
+
+    <div class="result" aria-live="polite">
+      <div class="big" id="big">1,09</div>
+      <div class="unit" id="unitName">Amélie</div>
+      <p class="detail" id="detail"></p>
+    </div>
+
+    <div class="stage" aria-hidden="true">
+      <div class="col"><div class="bar ref" id="barRef"><span>💛</span></div></div>
+      <div class="col"><div class="bar you" id="barYou"></div></div>
+    </div>
+    <div class="labels" aria-hidden="true">
+      <div>Amélie<small>165 cm</small></div>
+      <div id="lblYou">Toi<small id="lblYouSub"></small></div>
+    </div>
+  </section>
+
+  <h2 class="section-title">Le quotidien, en Amélie</h2>
+  <p class="section-sub">Touche un objet pour le passer dans le convertisseur.</p>
+  <div class="grid" id="grid"></div>
+
+  <footer>Fait avec <b>♥</b> pour Amélie, 165 cm de bonheur.</footer>
+</main>
+
+<script>
+(function () {
+  var AMELIE_CM = 165;
+
+  // facteur vers cm
+  var UNITS = {
+    mm: { label: "mm", name: "millimètres", cm: 0.1 },
+    cm: { label: "cm", name: "centimètres", cm: 1 },
+    m:  { label: "m",  name: "mètres",      cm: 100 },
+    km: { label: "km", name: "kilomètres",  cm: 100000 },
+    in: { label: "po", name: "pouces",      cm: 2.54 },
+    ft: { label: "ft", name: "pieds",       cm: 30.48 }
+  };
+
+  var OBJECTS = [
+    { emoji: "💳", name: "Carte bancaire",   cm: 8.56 },
+    { emoji: "🥫", name: "Canette de soda",  cm: 11.5 },
+    { emoji: "🥖", name: "Baguette",         cm: 65 },
+    { emoji: "🪑", name: "Chaise de cuisine", cm: 90 },
+    { emoji: "🧊", name: "Frigo",            cm: 185 },
+    { emoji: "🚪", name: "Porte d'intérieur", cm: 204 }
+  ];
+
+  var nf = function (max) { return new Intl.NumberFormat("fr-FR", { maximumFractionDigits: max }); };
+
+  function fmtAmelie(v) {
+    if (v === 0) return "0";
+    if (v < 0.01) return new Intl.NumberFormat("fr-FR", { maximumSignificantDigits: 2 }).format(v);
+    if (v < 100) return nf(2).format(v);
+    if (v < 10000) return nf(1).format(v);
+    return nf(0).format(v);
+  }
+  function fmtLen(v) {
+    if (v === 0) return "0";
+    if (v < 0.01) return new Intl.NumberFormat("fr-FR", { maximumSignificantDigits: 2 }).format(v);
+    if (v < 1000) return nf(2).format(v);
+    return nf(0).format(v);
+  }
+  function plural(v) { return v >= 2 ? "Amélies" : "Amélie"; }
+
+  function toAmelie(value, unit) { return value * UNITS[unit].cm / AMELIE_CM; }
+  function fromAmelie(am, unit) { return am * AMELIE_CM / UNITS[unit].cm; }
+
+  function parse(str) {
+    var s = String(str).replace(/\s/g, "").replace(",", ".");
+    if (s === "" || !/^\d*\.?\d*$/.test(s)) return NaN;
+    return parseFloat(s);
+  }
+
+  var el = {
+    m1: document.getElementById("m1"), m2: document.getElementById("m2"),
+    lab: document.getElementById("lab"), val: document.getElementById("val"),
+    unit: document.getElementById("unit"), big: document.getElementById("big"),
+    unitName: document.getElementById("unitName"), detail: document.getElementById("detail"),
+    barRef: document.getElementById("barRef"), barYou: document.getElementById("barYou"),
+    lblYou: document.getElementById("lblYou"), lblYouSub: document.getElementById("lblYouSub"),
+    grid: document.getElementById("grid")
+  };
+
+  var mode = 1; // 1 : taille -> Amélie, 2 : Amélie -> taille
+  var shown = 0, raf = null;
+
+  function fillUnits(keys) {
+    var cur = el.unit.value || "cm";
+    el.unit.innerHTML = "";
+    keys.forEach(function (k) {
+      var o = document.createElement("option");
+      o.value = k; o.textContent = UNITS[k].label;
+      el.unit.appendChild(o);
+    });
+    el.unit.value = keys.indexOf(cur) >= 0 ? cur : "cm";
+  }
+
+  function animateTo(target, render) {
+    if (raf) cancelAnimationFrame(raf);
+    var start = shown, t0 = null, dur = 450;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { shown = target; render(target); return; }
+    function step(ts) {
+      if (t0 === null) t0 = ts;
+      var p = Math.min(1, (ts - t0) / dur), e = 1 - Math.pow(1 - p, 3);
+      shown = start + (target - start) * e;
+      render(shown);
+      if (p < 1) raf = requestAnimationFrame(step); else { shown = target; render(target); }
+    }
+    raf = requestAnimationFrame(step);
+  }
+
+  function setBars(am) {
+    // am = nombre d'Amélies représenté par la barre "toi"
+    var max = Math.max(1, am);
+    var hRef = (1 / max) * 100;
+    var hYou = (am / max) * 100;
+    // si l'écart est énorme, on garde des barres lisibles
+    el.barRef.style.height = Math.max(hRef, 3) + "%";
+    el.barYou.style.height = Math.max(hYou, 3) + "%";
+  }
+
+  function update() {
+    var v = parse(el.val.value), u = el.unit.value;
+    if (isNaN(v)) {
+      el.big.textContent = "—"; el.unitName.textContent = "Entre un nombre";
+      el.detail.textContent = ""; return;
+    }
+    var am, outTxt, name, detail, you;
+    if (mode === 1) {
+      am = toAmelie(v, u);
+      name = plural(am);
+      var whole = Math.floor(am + 1e-9), restCm = (am - whole) * AMELIE_CM;
+      if (am === 0) detail = "Même pas une miette d'Amélie.";
+      else if (am < 1) detail = "Il manque " + fmtLen(AMELIE_CM - v * UNITS[u].cm) + " cm pour faire une Amélie entière.";
+      else if (Math.abs(am - whole) < 1e-9) detail = whole === 1 ? "Exactement une Amélie. Pile." : "Exactement " + whole + " Amélies, sans reste.";
+      else detail = whole + " " + plural(whole) + " et " + fmtLen(restCm) + " cm";
+      you = { sub: fmtLen(v) + " " + UNITS[u].label };
+      animateTo(am, function (x) { el.big.textContent = fmtAmelie(x); setBars(x); });
+      el.unitName.textContent = name;
+      el.lblYou.firstChild.nodeValue = "Ta taille";
+      el.lblYouSub.textContent = you.sub;
+    } else {
+      am = v;
+      var res = fromAmelie(am, u);
+      name = UNITS[u].name;
+      detail = fmtAmelie(am) + " " + plural(am) + " = " + fmtLen(am * AMELIE_CM) + " cm";
+      animateTo(res, function (x) { el.big.textContent = fmtLen(x); });
+      setBars(am);
+      el.unitName.textContent = name;
+      el.lblYou.firstChild.nodeValue = "Résultat";
+      el.lblYouSub.textContent = fmtAmelie(am) + " " + plural(am);
+    }
+    el.detail.textContent = detail;
+  }
+
+  function setMode(m) {
+    mode = m;
+    el.m1.setAttribute("aria-pressed", m === 1);
+    el.m2.setAttribute("aria-pressed", m === 2);
+    el.lab.textContent = m === 1 ? "Entre une taille" : "Entre un nombre d'Amélies";
+    if (m === 1) { fillUnits(["mm", "cm", "m", "km", "in", "ft"]); el.val.value = "180"; }
+    else { fillUnits(["mm", "cm", "m", "km", "in", "ft"]); el.val.value = "2"; }
+    shown = 0;
+    update();
+  }
+
+  // objets du quotidien
+  OBJECTS.forEach(function (o) {
+    var am = o.cm / AMELIE_CM;
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "item";
+    var size = o.cm >= 100 ? fmtLen(o.cm / 100) + " m" : fmtLen(o.cm) + " cm";
+    b.innerHTML =
+      '<div class="emoji" aria-hidden="true">' + o.emoji + '</div>' +
+      '<h3>' + o.name + '</h3>' +
+      '<div class="size">' + size + '</div>' +
+      '<div class="am">' + fmtAmelie(am) + ' <small>' + plural(am) + '</small></div>' +
+      '<div class="meter" aria-hidden="true"><i style="width:' + Math.min(100, am * 100) + '%"></i></div>';
+    b.addEventListener("click", function () {
+      if (mode !== 1) { mode = 1; el.m1.setAttribute("aria-pressed", true); el.m2.setAttribute("aria-pressed", false); el.lab.textContent = "Entre une taille"; }
+      fillUnits(["mm", "cm", "m", "km", "in", "ft"]);
+      el.unit.value = "cm";
+      el.val.value = String(o.cm).replace(".", ",");
+      update();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+    el.grid.appendChild(b);
+  });
+
+  el.m1.addEventListener("click", function () { setMode(1); });
+  el.m2.addEventListener("click", function () { setMode(2); });
+  el.val.addEventListener("input", update);
+  el.unit.addEventListener("change", update);
+
+  fillUnits(["mm", "cm", "m", "km", "in", "ft"]);
+  el.unit.value = "cm";
+  update();
+
+  // pour les tests
+  window.__amelie = { toAmelie: toAmelie, fromAmelie: fromAmelie, parse: parse, fmtAmelie: fmtAmelie, OBJECTS: OBJECTS };
+})();
+</script>
+</body>
+</html>
